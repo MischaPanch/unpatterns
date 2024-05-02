@@ -186,7 +186,8 @@ class AWrapper(ABase):
 
 Now you get full completion, mypy and IDE support, all while not inheriting from `A` at runtime!
 
-Neat, right? I stole this shameless from the very cool project [tinydb](https://github.com/msiemens/tinydb),
+Neat, right? I stole this shamelessly from the very cool project 
+[tinydb](https://github.com/msiemens/tinydb),
 where it's used to [pretend that a TinyDB instance is a Table](https://github.com/msiemens/tinydb/blob/master/tinydb/database.py).
 
 However - the downside is that super-weird things happen! (Which is the only reason I actually had to dig into that codebase and discover their
