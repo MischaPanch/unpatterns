@@ -1,7 +1,7 @@
 - [Typed Decorators with Protocols](#typed-decorators-with-protocols)
    * [The Boring Way](#the-boring-way)
    * [Crazy Way No1: Inherit at Type-Check Time](#crazy-way-no1-inherit-at-type-check-time)
-   * [Crazy Way No2: Protocols and workarounds](#crazy-way-no2-protocols-and-workarounds)
+   * [Crazy Way No2: Protocols and Workarounds](#crazy-way-no2-protocols-and-workarounds)
 
 
 # Typed Decorators with Protocols
@@ -226,7 +226,7 @@ If you know why and feel like you want to explain it, fire up a PR ;).
 
 Of course, this fix is ugly as hell.
 
-## Crazy Way No2: Protocols and workarounds
+## Crazy Way No2: Protocols and Workarounds
 
 This way would actually not be crazy if `Protocol`s in python worked as they should.
 Unfortunately, they don't really. A `Protocol` is a perfect way to express behavior
