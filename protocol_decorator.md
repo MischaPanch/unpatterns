@@ -277,7 +277,7 @@ at runtime `AWrapper(A()).amethod()` doesn't do anything. `__getattribute__`, wh
 is called before `__getattr__`, forwards the call
 to the empty implementation of `amethod` inside the protocol instead of forwarding it to
 the wrapped `self._a`. Since this didn't raise an `AttributeError`, it turns out the
-`__getattr__` is never called, so our decorator falls apart. Infuratingly, 
+`__getattr__` is never called, so our decorator falls apart. Infuriatingly, 
 `AWrapper(A()).a_field` **does work**, since the field is just declared in the prototype, 
 and not implemented.
 
@@ -285,7 +285,9 @@ The solution is obvious, right? We just need to raise an `AttributeError` in the
 prototype, then `__getattr__` will finally be called and we can all go home happy!
 
 If only... This doesn't work either. I don't know why. It should work! The [documentation](https://docs.python.org/3/reference/datamodel.html#object.__getattribute__)
-of `__getattribute__` sais it should work! But it doesnt... With
+of `__getattribute__` sais it should work! But it doesnt... 
+
+With
 
 ```python
 from typing import Protocol
