@@ -119,7 +119,8 @@ class AWrapper(ABase):
 ```
 
 Notice that I had to actually adjust `A` in order to introduce an abstract property as
-part of the interface! I would also need to copy all the methods and public from `A` to `AWrapper` and to `ABase`.
+part of the interface! I would also need to copy all the methods and public fields
+(the latter possibly as properties) from `A` to `AWrapper` and to `ABase`.
 So, an actual, normal interface, resulting in a lot of boilerplate. If the class `A` is defined in an external library, 
 you can't do that and will need to wrap it in some class of your own for this approach to work.
 
