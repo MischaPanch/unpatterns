@@ -193,8 +193,9 @@ where it's used to [pretend that a TinyDB instance is a Table](https://github.co
 However - the downside is that super-weird things happen! (Which is the only reason I actually had to dig into that codebase and discover their
 brilliant `with_typehint` implementation).
 
-I was just an innocent user, I inherited from `TinyDB` without reading the docs, called `super`, and ran into one
-weirdest errors of my life: super told me that the method was not available in the parent. But the method was there,
+I was just an innocent user, I inherited from `TinyDB` without reading the docs, called `super`, and ran into one of the
+weirdest errors of my life: super told me that the method was not available in the parent. 
+But the method was there,
 I saw it, I was using it! What was going on?
 
 Here's how it would look with the classes defined above:
