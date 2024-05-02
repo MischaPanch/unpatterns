@@ -1,3 +1,9 @@
+- [Typed Decorators with Protocols](#typed-decorators-with-protocols)
+   * [The Boring Way](#the-boring-way)
+   * [Crazy Way No1: Inherit at Type-Check Time](#crazy-way-no1-inherit-at-type-check-time)
+   * [Crazy Way No2: Protocols and workarounds](#crazy-way-no2-protocols-and-workarounds)
+
+
 # Typed Decorators with Protocols
 
 Python is amazing for implementing the decorator pattern. It is so good at it that young
