@@ -10,3 +10,5 @@ Your partner could leave you, your dog might run away, and your plants will dry 
 
 You have been warned!
 
+1. [Protocol Decorator](protocol_decorator.md) - One boring and two crazy ways to build a decorator of a class.
+
