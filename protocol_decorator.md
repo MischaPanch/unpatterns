@@ -23,7 +23,7 @@ class A:
 ```
 
 This is a common requirement - for example, some mechanism might already give you instances of 
-`A` that you just want to extend with new functionality).
+`A` that you just want to extend with new functionality.
 
 
 You can write a normal wrapper:
