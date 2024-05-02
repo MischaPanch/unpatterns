@@ -53,7 +53,7 @@ Let's go!
 ## The Boring Way
 
 You can make `AWrapper` have "the same interface" as `A` by copying
-all its methods and just forward them to the wrapped instance. At that point,
+all its methods and just forwarding them to the wrapped instance. At that point,
 it would be appropriate to make the member holding the wrapped instance private.
 The result would look like this:
 
