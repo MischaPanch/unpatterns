@@ -123,6 +123,9 @@ part of the interface! I would also need to copy all the methods and public from
 So, an actual, normal interface, resulting in a lot of boilerplate. If the class `A` is defined in an external library, 
 you can't do that and will need to wrap it in some class of your own for this approach to work.
 
+Moreover, it's not exactly the same as it was before, since now `a_field` is read-only. One could add
+a few more lines making it writeable, but that'd be even more code.
+
 I want to repeat: this is the sensible thing to do! Sure, it's a bunch of boilerplate, but it's straightforward and 
 there are no surprises. IDE's, type-checkers, and other tools will understand what's going on.
 
