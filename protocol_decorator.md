@@ -216,7 +216,7 @@ I though I was going crazy! The IDE autocompleted the method for me! Moreover,
 calling `AWrapperExtension(A()).amethod()` works and gives the expected result!
 
 The reason behind this failure is some very specific things that happen with `super()` 
-that I don't even want to understand... It suffices to say, that `super()` is weird, 
+that I don't even want to understand... It suffices to say that `super()` is weird, 
 and playing around with python magic can easily break it. By trial and error I found
 a way to fix it, but this is a serious WTF:
 
