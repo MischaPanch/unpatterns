@@ -156,7 +156,8 @@ So when I see nothing proposed on typing `AWrapper(A).am <TAB>`, I get incredibl
 
 
 With python, types are ignored by the interpreter anyway. So if we want to express that `AWrapper` 
-has the same interface as `A`, why not do it at runtime only? In fact, it can be done:
+has the same interface as `A`, why not do it at type-checking time only and 
+"remove" the inheritance at runtime? In fact, it can be done:
 
 ```python
 
