@@ -289,7 +289,7 @@ that we actually care about (though the overridden `__getattr__` would forward
 all methods and fields of `A`, of course...).
 
 Unfortunately, this doesn't work. Static analysis shows that everything is fine, but
-at runtime `AWrapper(A()).amethod()` doesn't do anything. `__getattribute__`, hich 
+at runtime `AWrapper(A()).amethod()` doesn't do anything. `__getattribute__`, which 
 is called before `__getattr__`, forwards the call
 to the empty implementation of `amethod` inside the protocol instead of forwarding it to
 the wrapped `self._a`. Since this didn't raise an `AttributeError`, it turns out the
