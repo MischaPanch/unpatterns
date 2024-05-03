@@ -121,7 +121,7 @@ class AWrapper(ABase):
 Notice that I had to actually adjust `A` in order to introduce an abstract property as
 part of the interface! I would also need to copy all the methods and public fields
 (the latter possibly as properties) from `A` to `AWrapper` and to `ABase`.
-So, an actual, normal interface, resulting in a lot of boilerplate. If the class `A` is defined in an external library, 
+This is just an actual, normal interface, resulting in a lot of boilerplate. If the class `A` is defined in an external library, 
 you can't do that and will need to wrap it in some class of your own for this approach to work.
 
 Moreover, it's not exactly the same as it was before, since now `a_field` is read-only. One could add
@@ -151,9 +151,8 @@ class AWrapper:
 ```
 
 The problem is that this will not work with type-checkers or IDEs. I don't know about you,
-but I can't live without autocompletion and type-safety catching my (many) simple mistakes.
-
-So when I see nothing proposed on typing `AWrapper(A).am <TAB>`, I get incredibly sad.
+but I can't live without autocompletion and type-safety catching my (many) simple mistakes. 
+Whenever I see nothing proposed on typing `AWrapper(A).am <TAB>`, I get incredibly sad.
 
 
 With python, types are ignored by the interpreter anyway. So if we want to express that `AWrapper` 
@@ -190,7 +189,8 @@ Neat, right? I stole this shamelessly from the very cool project
 [tinydb](https://github.com/msiemens/tinydb),
 where it's used to [pretend that a TinyDB instance is a Table](https://github.com/msiemens/tinydb/blob/master/tinydb/database.py).
 
-However - the downside is that super-weird things happen! (Which is the only reason I actually had to dig into that codebase and discover their
+However, the downside is that super-weird things happen! 
+(Which is the only reason I actually had to dig into that codebase and discover their
 brilliant `with_typehint` implementation).
 
 I was just an innocent user, I inherited from `TinyDB` without reading the docs, called `super`, and ran into one of the
@@ -231,7 +231,20 @@ class AWrapperExtension(AWrapper):
 will actually work (contrary to using `getattr(super(), "amethod")()` for some reason).
 If you know why and feel like you want to explain it, fire up a PR ;).
 
-Of course, this fix is ugly as hell.
+Of course, this fix is ugly as hell. Note that you'd probably only run into this if
+you want to override a "forwarded" method from `AWrapper` in a subclass and use
+`super` inside of it. Otherwise, there is no need to call super:
+
+```python
+class AWrapperExtension(AWrapper):
+    def method_in_extension(self) -> None:
+        self.amethod()
+```
+
+works perfectly fine. This kind of override tends to be rather rare, 
+your code can work for a very long time until 
+a confused colleague or user will run into the `AttributeError`
+described above.
 
 ## Crazy Way No2: Protocols and Workarounds
 
@@ -276,7 +289,7 @@ that we actually care about (though the overridden `__getattr__` would forward
 all methods and fields of `A`, of course...).
 
 Unfortunately, this doesn't work. Static analysis shows that everything is fine, but
-at runtime `AWrapper(A()).amethod()` doesn't do anything. `__getattribute__`, which 
+at runtime `AWrapper(A()).amethod()` doesn't do anything. `__getattribute__`, hich 
 is called before `__getattr__`, forwards the call
 to the empty implementation of `amethod` inside the protocol instead of forwarding it to
 the wrapped `self._a`. Since this didn't raise an `AttributeError`, it turns out the
@@ -285,10 +298,10 @@ the wrapped `self._a`. Since this didn't raise an `AttributeError`, it turns out
 and not implemented.
 
 The solution is obvious, right? We just need to raise an `AttributeError` in the
-prototype, then `__getattr__` will finally be called and we can all go home happy!
+prototype, then `__getattr__` will finally be called, and we can all go home happy!
 
 If only... This doesn't work either. I don't know why. It should work! The [documentation](https://docs.python.org/3/reference/datamodel.html#object.__getattribute__)
-of `__getattribute__` sais it should work! But it doesnt... 
+of `__getattribute__` sais it should work! But it doesn't... 
 
 With
 
