@@ -226,7 +226,7 @@ a way to fix it, but this is a serious WTF:
 ```python
 class AWrapperExtension(AWrapper):
     def method_in_extension(self) -> None:
-        super().__getattribute__("amethod")()
+        super().__getattr__("amethod")()
 ```
 will actually work (contrary to using `getattr(super(), "amethod")()` for some reason).
 If you know why and feel like you want to explain it, fire up a PR ;).
