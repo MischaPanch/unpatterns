@@ -218,18 +218,23 @@ results in
 I though I was going crazy! The IDE autocompleted the method for me! Moreover, 
 calling `AWrapperExtension(A()).amethod()` works and gives the expected result!
 
-The reason behind this failure is some very specific things that happen with `super()` 
-that I don't even want to understand... It suffices to say that `super()` is weird, 
-and playing around with python magic can easily break it. By trial and error I found
-a way to fix it, but this is a serious WTF:
+The reason behind this failure is some very specific things that happen with `super()`.
+As it turns out, it is only a proxy for the parent class and does not reproduce the *Method Resolution Order* (the inheritance chain) of a class.
+Instead, it points to the direct parent and only inherits from Pythons's `super` and `object` classes.
+We can see this with `super().__class__.__mro__` which evaluates to `(<class 'super'>, <class 'object'>)`.
+The `super()` object does not have access to methods defined on the grandparents.
+
+Returning from this aside, it suffices to say that `super()` is weird, 
+and playing around with python magic can easily break it. 
+
+By trial and error I found a way to fix it, but this is a serious WTF:
 
 ```python
 class AWrapperExtension(AWrapper):
     def method_in_extension(self) -> None:
-        super().__getattribute__("amethod")()
+        super().__getattr__("amethod")()
 ```
-will actually work (contrary to using `getattr(super(), "amethod")()` for some reason).
-If you know why and feel like you want to explain it, fire up a PR ;).
+will actually work (contrary to using `getattr(super(), "amethod")()` since `__getattr__` is defined in `AWrapper` but `getattr` traverses the MRO tree of `super()` which only containes `super` and `object` -- both of which do not have access to our `amethod` method).
 
 Of course, this fix is ugly as hell. Note that you'd probably only run into this if
 you want to override a "forwarded" method from `AWrapper` in a subclass and use
@@ -301,7 +306,7 @@ The solution is obvious, right? We just need to raise an `AttributeError` in the
 prototype, then `__getattr__` will finally be called, and we can all go home happy!
 
 If only... This doesn't work either. I don't know why. It should work! The [documentation](https://docs.python.org/3/reference/datamodel.html#object.__getattribute__)
-of `__getattribute__` sais it should work! But it doesn't... 
+of `__getattribute__` says it should work! But it doesn't... 
 
 With
 
